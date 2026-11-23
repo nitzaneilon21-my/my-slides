@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>המודל – Transactional Stress Theory</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fff;--txt:#1a1a1a;--mut:#595959;--p1:#eaf2fa;--p2:#bcd2e6;--box:#f7f7f7;--bd:#8a8a8a;--acc:#1f4e9c;--liq:rgba(42,120,214,.30);--liqs:#4c96e8;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1c1c1a;--txt:#ecebe5;--mut:#b4b3aa;--p1:#26323f;--p2:#33495f;--box:#2b2b29;--bd:#8d8c84;--acc:#8fb8f2;--liq:rgba(76,150,232,.32)}}
+:root[data-theme="dark"]{--bg:#1c1c1a;--txt:#ecebe5;--mut:#b4b3aa;--p1:#26323f;--p2:#33495f;--box:#2b2b29;--bd:#8d8c84;--acc:#8fb8f2;--liq:rgba(76,150,232,.32)}
+html,body{margin:0;background:var(--bg);color:var(--txt);font-family:Heebo,Arial,sans-serif}
+body{padding:14px 16px 24px}
+h1{font-size:20px;margin:0 0 2px}
+#ph{font-size:14px;font-weight:700;color:var(--acc);margin:0 0 8px}
+.ctl{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+button{font:inherit;font-size:14px;padding:7px 16px;border:1px solid var(--bd);border-radius:8px;background:var(--box);color:var(--txt);cursor:pointer}
+button.pri{background:var(--acc);color:var(--bg);border-color:var(--acc);font-weight:700}
+button:disabled{opacity:.4;cursor:default}
+#cap{min-height:48px;font-size:15px;line-height:1.5;margin:4px 0 8px;font-weight:500}
+#wrap{width:100%;overflow:hidden;position:relative}
+#stage{position:absolute;top:0;right:0;width:980px;height:600px;transform-origin:top right}
+.pan{position:absolute;top:40px;height:400px;border:1px solid var(--bd);border-radius:6px;background:linear-gradient(var(--p1),var(--p2));overflow:hidden;transition:box-shadow .5s,border-color .5s}
+.pan.cur{border-color:var(--acc);box-shadow:0 0 0 3px var(--liq)}
+.ptl{position:relative;text-align:center;padding:8px 4px 4px;font-weight:700;font-size:16px;line-height:1.2}
+.ptl span{display:block;font-size:11px;font-weight:400;color:var(--mut);direction:ltr}
+.liq{position:absolute;left:0;right:0;bottom:0;height:0;background:var(--liq);transition:height .3s}
+.liq:after{content:"";position:absolute;left:0;right:0;top:-6px;height:7px;background:radial-gradient(circle at 8px 8px,var(--liq) 7px,transparent 8px) 0 0/16px 7px repeat-x;animation:w 1.4s linear infinite}
+@keyframes w{to{background-position-x:16px}}
+.pan.ra .liq{height:100%;transition:height 1.5s cubic-bezier(.3,.7,.3,1) .5s}
+.cn{position:relative;padding:4px 10px}
+.chip{opacity:0;margin:0 0 9px;padding:6px 8px;border:1.5px solid var(--acc);border-radius:10px;background:var(--box);text-align:center;font-size:14px;font-weight:700;line-height:1.25}
+.chip span{display:block;direction:ltr;font-size:11px;font-weight:400;color:var(--mut)}
+.gen .chip{border:1.5px dashed var(--bd);font-weight:500;background:transparent}
+.pan.ga .gen .chip,.pan.ra .res .chip{animation:jump .8s cubic-bezier(.3,1.4,.5,1) both;animation-delay:calc(var(--d) + var(--b,0s))}
+.res{--b:1.6s}
+@keyframes jump{0%{transform:translateY(-140px) scale(.6);opacity:0}55%{opacity:1}75%{transform:translateY(8px) scale(1.04);opacity:1}90%{transform:translateY(-4px);opacity:1}100%{transform:none;opacity:1}}
+.stream{position:absolute;width:7px;border-radius:4px;background:repeating-linear-gradient(var(--liqs) 0 10px,transparent 10px 15px);transform-origin:top;animation:pour 1.8s ease forwards;z-index:5;pointer-events:none}
+@keyframes pour{0%{transform:scaleY(0);opacity:1}35%{transform:scaleY(1);opacity:1}85%{opacity:1}100%{transform:scaleY(1);opacity:0}}
+#thr{position:absolute;left:810px;top:40px;width:160px;height:400px;text-align:center;font-weight:700;font-size:16px;padding-top:8px;box-sizing:border-box;transition:opacity .5s}
+#thr span{display:block;font-size:11px;font-weight:400;color:var(--mut);direction:ltr}
+#bolt{width:80px;margin-top:60px;opacity:0;transform:translateY(-80px)}
+#thr.on #bolt{animation:strike .9s ease forwards}
+@keyframes strike{0%{opacity:0;transform:translateY(-80px)}40%{opacity:1;transform:none;filter:brightness(2)}60%{filter:none}70%,100%{opacity:1;transform:none}}
+#gnd{position:absolute;left:0;right:0;top:548px;border-top:2px dashed var(--bd)}
+#fig{position:absolute;top:466px;width:50px;height:80px;left:915px;transition:left 1.7s ease-in-out}
+#fig line,#fig circle{stroke:var(--txt);stroke-width:3.5;stroke-linecap:round;fill:none}
+.lg,.am{transform-box:view-box}
+.lg{transform-origin:25px 48px}.am{transform-origin:25px 26px}
+#fig.walk .a{animation:sw .4s infinite alternate ease-in-out}
+#fig.walk .b{animation:sw .4s infinite alternate-reverse ease-in-out}
+@keyframes sw{from{transform:rotate(-28deg)}to{transform:rotate(28deg)}}
+#bub{position:absolute;top:350px;width:180px;padding:8px 10px;text-align:center;font-weight:700;font-size:15px;border:2px solid var(--acc);border-radius:14px;background:var(--box);opacity:0;transform:scale(.7);transition:opacity .4s,transform .4s,left 1.7s ease-in-out;z-index:6}
+#bub:after{content:"";position:absolute;left:50%;bottom:-11px;width:16px;height:16px;margin-left:-8px;background:var(--box);border-right:2px solid var(--acc);border-bottom:2px solid var(--acc);transform:rotate(45deg)}
+#bub.on{opacity:1;transform:none;transition-delay:1.5s,1.5s,0s}
+.note{font-size:12px;color:var(--mut);margin-top:6px}
+</style>
+</head>
+<body>
+<h1>המודל – Transactional Stress Theory</h1>
+<div id="ph"></div>
+<div class="ctl"><button id="pv">◀ הקודם</button><button id="nx" class="pri">הבא ▶</button><button id="rs">↺ מההתחלה</button></div>
+<div id="cap"></div>
+<div id="wrap"><div id="stage">
+<div id="thr"><b>גורם לחץ</b><span>Stressor</span>
+<svg id="bolt" viewBox="0 0 70 100"><polygon points="42,0 8,56 32,56 22,100 62,38 38,38" fill="#f2b01e" stroke="#b87d00" stroke-width="3" stroke-linejoin="round"/></svg></div>
+<div id="gnd"></div>
+<div id="bub"></div>
+<div id="fig"><svg viewBox="0 0 50 80" width="50" height="80"><circle cx="25" cy="10" r="8"/><line x1="25" y1="18" x2="25" y2="48"/>
+<line class="am a" x1="25" y1="26" x2="10" y2="42"/><line class="am b" x1="25" y1="26" x2="40" y2="42"/>
+<line class="lg a" x1="25" y1="48" x2="14" y2="76"/><line class="lg b" x1="25" y1="48" x2="36" y2="76"/></svg></div>
+</div></div>
+<p class="note">חלק א׳ מציג את התהליך כפי שתואר אצל Lazarus & Folkman. חלק ב׳ ממלא כל שלב במושגים של המחקר.</p>
+<script>
+const P=[{x:620,w:170,he:'הערכה ראשונית',en:'Primary appraisal'},{x:400,w:200,he:'הערכה שניונית',en:'Secondary appraisal'},{x:195,w:185,he:'אסטרטגיית התמודדות',en:'Coping'},{x:10,w:170,he:'תגובת לחץ',en:'Stress response'}];
+const GEN=[[['נזק / אובדן','Harm / loss'],['איום','Threat'],['אתגר','Challenge']],[['משאבים אישיים','Health, beliefs, skills'],['משאבים חברתיים','Social support'],['משאבים חומריים','Material']],[['ממוקדת בעיה','Problem-focused'],['ממוקדת רגש','Emotion-focused']],[['פיזיולוגית','Physiological'],['רגשית','Emotional'],['התנהגותית','Behavioral']]];
+const RES=[[['חשיפה לאירוע','Exposure'],['סגנון התקשרות','Anxious · Avoidant (ECR-12)']],[['חוסן קהילתי','Community resilience (CCRAM-10)'],['אמון בצבא','Trust in the army'],['תחושת קוהרנטיות','SOC-13']],[['התמודדות פעילה','Active / adaptive'],['התמודדות נמנעת','Avoidant / maladaptive'],['התמודדות רגשית','Emotional / neutral']],[['חרדה','Anxiety (BSI-18)'],['דיכאון','Depression'],['סומאטיזציה','Somatization']]];
+const BUB=['','זה מאיים עלי?','מה יש לי כדי להתמודד?','איך אפעל?','איך אני מרגיש?'];
+const CAP=['המודל המקורי של Lazarus & Folkman (1984): אדם פוגש מצב ומעריך אותו. לחצו ״הבא״ כדי ללוות אותו לאורך התהליך.',
+'הערכה ראשונית (Primary appraisal): ברגע שהוא קולט איום הוא שואל, האם זה מאיים עלי? האם זה נזק או אובדן, איום או אתגר?',
+'הערכה שניונית (Secondary appraisal): עכשיו הוא בודק אילו משאבים עומדים לרשותו, אישיים, חברתיים וחומריים.',
+'בחירת אסטרטגיית התמודדות (Coping): לפי ההערכה והמשאבים הוא בוחר איך לפעול, ממוקד בעיה או ממוקד רגש.',
+'תגובת לחץ (Stress response): התוצאה היא תגובה פיזיולוגית, רגשית והתנהגותית.',
+'חוזרים להתחלה. הפעם נמלא כל מושג של Lazarus בתוכן המחקר.',
+'במקום הערכה ראשונית: חשיפה לאירוע, ועליה נשפך סגנון ההתקשרות (Anxious ו-Avoidant).',
+'במקום בדיקת משאבים: חוסן קהילתי ואמון בצבא קופצים, ולצידם תחושת הקוהרנטיות (SOC).',
+'במקום בחירת התמודדות: שלושת סגנונות ההתמודדות, פעילה, נמנעת ורגשית.',
+'ובסוף, תגובת הלחץ: חרדה, דיכאון וסומאטיזציה.'];
+const X=[915,705,500,287,95],st=document.getElementById('stage'),wr=document.getElementById('wrap'),fig=document.getElementById('fig'),bub=document.getElementById('bub'),thr=document.getElementById('thr');
+const chips=a=>a.map((c,i)=>`<div class="chip" style="--d:${i*.3}s">${c[0]}<span>${c[1]}</span></div>`).join('');
+const pans=P.map((p,i)=>{const d=document.createElement('div');d.className='pan';d.style.cssText=`left:${p.x}px;width:${p.w}px`;
+ d.innerHTML=`<div class="liq"></div><div class="ptl">${p.he}<span>${p.en}</span></div><div class="cn gen">${chips(GEN[i])}</div><div class="cn res">${chips(RES[i])}</div>`;st.appendChild(d);return d});
+function pour(i){const p=P[i],s=document.createElement('div');s.className='stream';s.style.cssText=`left:${p.x+p.w/2-3}px;top:0;height:300px`;st.appendChild(s);setTimeout(()=>s.remove(),1900)}
+let s=0,tm;
+function render(dir){
+ const A=s<=4,k=A?s:s-5,old=render.k;
+ document.getElementById('ph').textContent=A?'חלק א׳ · המודל המקורי של Lazarus & Folkman (1984)':'חלק ב׳ · המודל במחקר שלי';
+ cap.textContent=CAP[s];
+ pans.forEach((d,i)=>{d.classList.toggle('ga',A&&k>i);d.classList.toggle('ra',!A&&k>i);d.classList.toggle('cur',A&&k===i+1)});
+ thr.style.opacity=A?1:0;thr.classList.toggle('on',A&&k>=1);
+ if(old!==k){clearTimeout(tm);const dl=(A&&k===1&&dir>0)?600:0;fig.style.transitionDelay=dl+'ms';fig.style.left=X[k]+'px';
+  tm=setTimeout(()=>{fig.classList.add('walk');setTimeout(()=>fig.classList.remove('walk'),1700)},dl);
+  bub.style.left=Math.min(795,Math.max(5,X[k]-65))+'px'}
+ bub.classList.remove('on');if(A&&k>=1){bub.textContent=BUB[k];bub.classList.add('on')}
+ if(!A&&dir>0&&k>=1)pour(k-1);
+ render.k=k;
+ document.getElementById('pv').disabled=s===0;
+ document.getElementById('nx').textContent=s===9?'↺ מההתחלה':'הבא ▶';
+}
+const go=d=>{if(d>0&&s===9){s=0;render(-1)}else{s=Math.max(0,Math.min(9,s+d));render(d)}};
+const cap=document.getElementById('cap');
+document.getElementById('nx').onclick=()=>go(1);document.getElementById('pv').onclick=()=>go(-1);
+document.getElementById('rs').onclick=()=>{s=0;render(-1)};
+document.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'||e.key===' '){e.preventDefault();go(1)}if(e.key==='ArrowRight')go(-1)});
+function fit(){const f=Math.min(1,wr.clientWidth/980);st.style.transform=`scale(${f})`;wr.style.height=(600*f)+'px'}
+addEventListener('resize',fit);fit();render.k=0;render(0);
+</script>
+</body>
+</html>
